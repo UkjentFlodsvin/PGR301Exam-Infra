@@ -1,0 +1,38 @@
+jobs:
+  - name: infra
+    plan:
+      - aggregate:
+          - get: ExamPGR301-Infra
+            trigger: true
+      - task: apply
+        file: ExamPGR301-Infra/Concourse/Terraform/task.yml
+        input_mapping: {source: ExamPGR301-Infra}
+        params:
+          github_token: ((github_token))
+          heroku_api_key: ((heroku_api_key))
+          command: apply
+          directories: |
+            terraform
+
+  - put: ExamPGR301-Infra
+    params:
+      repository: with-state
+      rebase: true
+
+resources:
+
+  # Replace with your own repository
+  #  - name: ExamPGR301-App
+  #    type: git
+  #    source:
+  #      uri: git@github.com:UkjentFlodsvin/PGR301Exam-App.git
+  #      branch: master
+  #      private_key: ((deploy_key_app))
+
+  # Replace with your own repository
+  - name: ExamPGR301-Infra
+    type: git
+    source:
+      uri: git@github.com:UkjentFlodsvin/PGR301Exam-Infra.git
+      branch: master
+      private_key: ((deploy_key_infra))
