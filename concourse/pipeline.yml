@@ -5,7 +5,7 @@ jobs:
           - get: ExamPGR301-Infra
             trigger: true
       - task: apply
-        file: ExamPGR301-Infra/Concourse/Terraform/task.yml
+        file: ExamPGR301-Infra/concourse/terraform/task.yml
         input_mapping: {source: ExamPGR301-Infra}
         params:
           github_token: ((github_token))
