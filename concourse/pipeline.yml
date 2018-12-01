@@ -12,12 +12,11 @@ jobs:
           heroku_api_key: ((heroku_api_key))
           command: apply
           directories: |
-            terraform
-
-  - put: ExamPGR301-Infra
-    params:
-      repository: with-state
-      rebase: true
+            .
+      - put: ExamPGR301-Infra
+        params:
+         repository: with-state
+         rebase: true
 
 resources:
 
