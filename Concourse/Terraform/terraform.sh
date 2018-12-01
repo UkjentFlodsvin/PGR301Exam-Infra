@@ -24,10 +24,10 @@ setup() {
 }
 
 setup_cache() {
-    export TF_DATA_DIR="${DIR}/terraform-cache/${1}"
+    export TF_DATA_DIR="${DIR}/Terraform-cache/${1}"
 
     mkdir -p "${TF_DATA_DIR}"
-    if [ -z "$(ls -A ${DIR}/terraform-cache/${1})" ]; then
+    if [ -z "$(ls -A ${DIR}/Terraform-cache/${1})" ]; then
         print warning "cache enabled but empty (fresh worker)"
     else
         print success "cache enabled and found existing cache"
@@ -55,12 +55,12 @@ terraform_init() {
 
 terraform_plan() {
     terraform_init
-    terraform plan -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -lock=false -no-color | tee "${DIR}/Terraform/full-plan"
 
     # Create a sanitized plan for Github comments
-    echo "\`\`\`diff" > "${DIR}/terraform/plan"
-    sed -n -e '/------------------------------------------------------------------------/,$p' "${DIR}/terraform/full-plan" >> "${DIR}/terraform/plan"
-    echo "\`\`\`" >> "${DIR}/terraform/plan"
+    echo "\`\`\`diff" > "${DIR}/Terraform/plan"
+    sed -n -e '/------------------------------------------------------------------------/,$p' "${DIR}/Terraform/full-plan" >> "${DIR}/Terraform/plan"
+    echo "\`\`\`" >> "${DIR}/Terraform/plan"
 }
 
 terraform_apply() {
