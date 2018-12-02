@@ -44,18 +44,18 @@ terraform_fmt() {
 
 terraform_get() {
     # NOTE: We are using init here to download providers in addition to modules.
-    terraform init -backend=false -input=false >> /dev/null
+    terraform init -var-file=./terraform.tfvars -backend=false -input=false >> /dev/null
     print success "terraform get (init without backend)"
 }
 
 terraform_init() {
-    terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
+    terraform init -var-file=./terraform.tfvars -input=false -lock-timeout=$lock_timeout >> /dev/null
     print success "terraform init"
 }
 
 terraform_plan() {
     terraform_init
-    terraform plan -var-file=${DIR}/terraform.tfvars -input=false -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -var-file=./terraform.tfvars -input=false -lock=false -no-color | tee "${DIR}/terraform/full-plan"
 
     # Create a sanitized plan for Github comments
     echo "\`\`\`diff" > "${DIR}/terraform/plan"
@@ -65,7 +65,7 @@ terraform_plan() {
 
 terraform_apply() {
     terraform_init
-    terraform apply -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
+    terraform apply -var-file=./terraform.tfvars -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
     # Fails if there is no output (which is not really a failure)
     set +e
     terraform output -json > ${DIR}/terraform/output.json
@@ -81,14 +81,14 @@ terraform_apply() {
 terraform_test_module() {
     terraform_fmt
     terraform_get
-    terraform validate -check-variables=true
+    terraform validate -check-variables=false
     print success "terraform validate (not including variables)"
 }
 
 terraform_test() {
     terraform_fmt
     terraform_get
-    terraform validate -check-variables=true
+    terraform validate -check-variables=false
     print success "terraform validate"
 }
 
