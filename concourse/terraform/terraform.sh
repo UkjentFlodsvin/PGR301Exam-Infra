@@ -44,18 +44,18 @@ terraform_fmt() {
 
 terraform_get() {
     # NOTE: We are using init here to download providers in addition to modules.
-    terraform init -backend=false -input=true >> /dev/null
+    terraform init -backend=false -input=false >> /dev/null
     print success "terraform get (init without backend)"
 }
 
 terraform_init() {
-    terraform init -input=true -lock-timeout=$lock_timeout >> /dev/null
+    terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
     print success "terraform init"
 }
 
 terraform_plan() {
     terraform_init
-    terraform plan -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -var-file=./terraform.tfvars -input=false -lock=false -no-color | tee "${DIR}/terraform/full-plan"
 
     # Create a sanitized plan for Github comments
     echo "\`\`\`diff" > "${DIR}/terraform/plan"
@@ -88,7 +88,7 @@ terraform_test_module() {
 terraform_test() {
     terraform_fmt
     terraform_get
-    terraform validate
+    terraform validate -check-variables=true
     print success "terraform validate"
 }
 
