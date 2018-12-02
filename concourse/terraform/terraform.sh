@@ -44,12 +44,12 @@ terraform_fmt() {
 
 terraform_get() {
     # NOTE: We are using init here to download providers in addition to modules.
-    terraform init -var-file=./terraform.tfvars -backend=false -input=false >> /dev/null
+    terraform init -backend=false -input=false >> /dev/null
     print success "terraform get (init without backend)"
 }
 
 terraform_init() {
-    terraform init -var-file=./terraform.tfvars -input=false -lock-timeout=$lock_timeout >> /dev/null
+    terraform -input=false -lock-timeout=$lock_timeout >> /dev/null
     print success "terraform init"
 }
 
