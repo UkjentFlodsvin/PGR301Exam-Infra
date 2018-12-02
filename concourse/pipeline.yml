@@ -27,7 +27,7 @@ jobs:
         params:
           github_token: ((github_token))
           heroku_api_key: ((heroku_api_key))
-          command: apply
+          command: apply ((heroku_provider))
           directories: |
             terraform
       - put: ExamPGR301-Infra
