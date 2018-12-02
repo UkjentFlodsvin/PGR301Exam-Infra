@@ -1,9 +1,27 @@
 jobs:
+  # Replace params / app_name with your heroku app name
+#  - name: deploy-app
+#    plan:
+#      - aggregate:
+#          - get: monitoring-app
+#          - get: monitoring-infra
+#      - task: mvn_build
+#        file: monitoring-infra/concourse/java/task.yml
+#        input_mapping: {source: monitoring-app}
+#
+#      - task: push_to_heroku
+#        file: monitoring-infra/concourse/heroku/push_master_to_heroku.yml
+#        input_mapping: {source: monitoring-app}
+#        params:
+#          app_name: ((heroku_app_name))
+#          heroku_email: ((heroku_email))
+#          heroku_api_token: ((heroku_api_key))
+
+
   - name: infra
     plan:
       - aggregate:
           - get: ExamPGR301-Infra
-            trigger: true
       - task: apply
         file: ExamPGR301-Infra/concourse/terraform/task.yml
         input_mapping: {source: ExamPGR301-Infra}
@@ -15,18 +33,18 @@ jobs:
             terraform
       - put: ExamPGR301-Infra
         params:
-         repository: with-state
-         rebase: true
+          repository: with-state
+          rebase: true
 
 resources:
 
   # Replace with your own repository
-  #  - name: ExamPGR301-App
-  #    type: git
-  #    source:
-  #      uri: git@github.com:UkjentFlodsvin/PGR301Exam-App.git
-  #      branch: master
-  #      private_key: ((deploy_key_app))
+#  - name: ExamPGR301-App
+#    type: git
+#    source:
+#      uri: git@github.com:UkjentFlodsvin/PGR301Exam-App.git
+#      branch: master
+#      private_key: ((deploy_key_app))
 
   # Replace with your own repository
   - name: ExamPGR301-Infra
