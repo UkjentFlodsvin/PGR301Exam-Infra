@@ -50,12 +50,12 @@ terraform_get() {
 
 terraform_init() {
     terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
-    print success "terraform init $PWD"
+    print success "terraform init $PWD/terraform.tfvars"
 }
 
 terraform_plan() {
     terraform_init
-    terraform plan -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -var-file=$PWD/terraform.tfvars -lock=false -no-color | tee "${DIR}/terraform/full-plan"
 
     # Create a sanitized plan for Github comments
     echo "\`\`\`diff" > "${DIR}/terraform/plan"
@@ -65,7 +65,7 @@ terraform_plan() {
 
 terraform_apply() {
     terraform_init
-    terraform apply -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
+    terraform apply -var-file=$PWD/terraform.tfvars -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
     # Fails if there is no output (which is not really a failure)
     set +e
     terraform output -json > ${DIR}/terraform/output.json
