@@ -21,7 +21,7 @@ setup() {
     export DIR="$PWD"
     export GITHUB_TOKEN="${github_token}"
     export HEROKU_API_KEY="${heroku_api_key}"
-    echo ${DIR}
+    print success "${DIR}"
 }
 
 setup_cache() {
@@ -50,13 +50,13 @@ terraform_get() {
 }
 
 terraform_init() {
-    terraform -input=false -lock-timeout=$lock_timeout >> /dev/null
+    terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
     print success "terraform init"
 }
 
 terraform_plan() {
     terraform_init
-    terraform plan -var-file=./terraform.tfvars -input=false -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -lock=false -no-color | tee "${DIR}/terraform/full-plan"
 
     # Create a sanitized plan for Github comments
     echo "\`\`\`diff" > "${DIR}/terraform/plan"
@@ -66,7 +66,7 @@ terraform_plan() {
 
 terraform_apply() {
     terraform_init
-    terraform apply -var-file=./terraform.tfvars -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
+    terraform apply -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
     # Fails if there is no output (which is not really a failure)
     set +e
     terraform output -json > ${DIR}/terraform/output.json
@@ -89,7 +89,7 @@ terraform_test_module() {
 terraform_test() {
     terraform_fmt
     terraform_get
-    terraform validate -check-variables=false
+    terraform validate
     print success "terraform validate"
 }
 
