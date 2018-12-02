@@ -21,7 +21,6 @@ setup() {
     export DIR="$PWD"
     export GITHUB_TOKEN="${github_token}"
     export HEROKU_API_KEY="${heroku_api_key}"
-    print success "${DIR}"
 }
 
 setup_cache() {
@@ -51,7 +50,7 @@ terraform_get() {
 
 terraform_init() {
     terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
-    print success "terraform init"
+    print success "terraform init $PWD"
 }
 
 terraform_plan() {
