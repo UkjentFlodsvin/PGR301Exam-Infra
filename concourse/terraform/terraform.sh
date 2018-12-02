@@ -50,7 +50,7 @@ terraform_get() {
 
 terraform_init() {
     terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
-    print success "terraform init $PWD/terraform.tfvars"
+    print success "terraform init ${PWD/terraform.tfvars}"
 }
 
 terraform_plan() {
@@ -65,7 +65,7 @@ terraform_plan() {
 
 terraform_apply() {
     terraform_init
-    terraform apply -var-file=$PWD/terraform.tfvars -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
+    terraform apply -refresh=true -auto-approve=true -lock-timeout=$lock_timeout
     # Fails if there is no output (which is not really a failure)
     set +e
     terraform output -json > ${DIR}/terraform/output.json
