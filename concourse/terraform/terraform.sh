@@ -55,7 +55,7 @@ terraform_init() {
 
 terraform_plan() {
     terraform_init
-    terraform plan -var-file=./terraform.tfvars -input=false -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -var-file=${DIR}/terraform.tfvars -input=false -lock=false -no-color | tee "${DIR}/terraform/full-plan"
 
     # Create a sanitized plan for Github comments
     echo "\`\`\`diff" > "${DIR}/terraform/plan"
