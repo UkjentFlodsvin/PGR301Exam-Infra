@@ -50,7 +50,7 @@ terraform_get() {
 
 terraform_init() {
     terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
-    print success "terraform init ${heroku_provider}"
+    print success "terraform init"
 }
 
 terraform_plan() {
@@ -72,9 +72,9 @@ terraform_apply() {
     set -e
     git config --global user.email "concourse-ci@localhost"
     git config --global user.name "concourse-ci"
-    git add terraform.tfstate
-    git status
-    git commit -m"concourse CI@Localhost"
+#    git add terraform.tfstate
+#    git status
+#    git commit -m"concourse CI@Localhost"
     git clone "${DIR}/source" "${DIR}/with-state"
 }
 
