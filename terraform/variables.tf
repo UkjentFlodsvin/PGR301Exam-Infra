@@ -1,5 +1,5 @@
-variable "app_prefix" {default = "book-api"}
+variable "app_prefix" {}
 
-variable "pipeline_name" {default = "book-api-pipeline"}
+variable "pipeline_name" {}
 
-variable "heroku_provider" {default = "nylmar15@student.kristiania.no"}
+variable "heroku_provider" {}

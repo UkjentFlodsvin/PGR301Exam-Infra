@@ -81,7 +81,7 @@ terraform_apply() {
 terraform_test_module() {
     terraform_fmt
     terraform_get
-    terraform validate -check-variables=false
+    terraform validate -check-variables=true
     print success "terraform validate (not including variables)"
 }
 
