@@ -50,12 +50,12 @@ terraform_get() {
 
 terraform_init() {
     terraform init -input=false -lock-timeout=$lock_timeout >> /dev/null
-    print success "terraform init ${PWD/terraform.tfvars}"
+    print success "terraform init"
 }
 
 terraform_plan() {
     terraform_init
-    terraform plan -var-file=$PWD/terraform.tfvars -lock=false -no-color | tee "${DIR}/terraform/full-plan"
+    terraform plan -lock=false -no-color | tee "${DIR}/terraform/full-plan"
 
     # Create a sanitized plan for Github comments
     echo "\`\`\`diff" > "${DIR}/terraform/plan"
