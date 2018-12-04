@@ -10,6 +10,7 @@ inputs:
   - name: source
 
 params:
+  github_token: ((github_token))
   heroku_api_key: ((heroku_api_key))
   heroku_provider: ((heroku_provider))
   heroku_app_name: ((heroku_app_name))

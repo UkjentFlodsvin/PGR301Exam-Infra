@@ -13,8 +13,8 @@ jobs:
           heroku_api_key: ((heroku_api_key))
           heroku_provider: ((heroku_provider))
           heroku_app_name: ((heroku_app_name))
-          directories: |
-            .
+#          directories: |
+#            .
 
   - name: infra
     plan:

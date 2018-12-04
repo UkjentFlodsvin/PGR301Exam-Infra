@@ -6,16 +6,17 @@ setup() {
     export DIR="$PWD"
     export GITHUB_TOKEN="${github_token}"
     export HEROKU_API_KEY="${heroku_api_key}"
+    export HEROKU_PROVIDER="${heroku_api_key}"
 }
 
 main() {
     cat  << EOF > /root/.netrc
       machine api.heroku.com
-          login ${heroku_email}
-          password ${heroku_api_token}
+          login ${heroku_provider}
+          password ${heroku_api_key}
       machine git.heroku.com
-          login ${heroku_email}
-          password ${heroku_api_token}
+          login ${heroku_provider}
+          password ${heroku_api_key}
 EOF
 
     heroku container:login
