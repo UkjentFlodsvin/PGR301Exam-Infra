@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+heroku
 
 print() {
     local GREEN='\033[1;32m'
