@@ -21,7 +21,7 @@ run:
   args:
     - -exc
     - |
-      cat > ~/.netrc:/root/.netrc:ro <<EOF
+      cat > ~/.netrc:ro <<EOF
       machine api.heroku.com
           login ${heroku_email}
           password ${heroku_api_token}
