@@ -6,6 +6,9 @@ image_resource:
     repository: wingrunr21/alpine-heroku-cli
     tag: "latest"
 
+inputs:
+  - name: source
+
 params:
   heroku_api_key: ((heroku_api_key))
   heroku_provider: ((heroku_provider))
