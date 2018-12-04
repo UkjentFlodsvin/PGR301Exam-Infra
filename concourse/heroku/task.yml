@@ -3,25 +3,12 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: hashicorp/terraform
-    tag: "0.11.8"
-
-inputs:
-- name: source
-
-outputs:
-- name: with-state
-
-caches:
-- path: terraform-cache
+    repository: wingrunr21/alpine-heroku-cli
+    tag: "latest"
 
 params:
-  command:
-  directories:
-  cache: "false"
-  lock_timeout: 5m
-  github_token: ((github_token))
   heroku_api_key: ((heroku_api_key))
   heroku_provider: ((heroku_provider))
+  heroku_app_name: ((heroku_app_name))
 run:
   path: ./source/concourse/heroku/pushBuild.sh
