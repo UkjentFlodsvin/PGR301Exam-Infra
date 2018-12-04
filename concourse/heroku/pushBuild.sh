@@ -2,12 +2,12 @@
 
 set -e
 
-setup() {
-    export DIR="$PWD"
-    export GITHUB_TOKEN="${github_token}"
-    export HEROKU_API_KEY="${heroku_api_key}"
-    export HEROKU_PROVIDER="${heroku_api_key}"
-}
+#setup() {
+#    export DIR="$PWD"
+#    export GITHUB_TOKEN="${github_token}"
+#    export HEROKU_API_KEY="${heroku_api_key}"
+#    export HEROKU_PROVIDER="${heroku_api_key}"
+#}
 
 main() {
     cat  << EOF > /root/.netrc
@@ -21,7 +21,6 @@ EOF
 
     heroku container:login
     heroku container:push web
-    heroku container:release web
-    heroku open
+    heroku container:release web -a ${heroku_app_name}
 }
 main
