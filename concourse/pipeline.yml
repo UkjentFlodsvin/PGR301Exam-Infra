@@ -7,10 +7,13 @@ jobs:
           - get: ExamPGR301-Infra
       - task: build
         file: ExamPGR301-Infra/concourse/heroku/task.yml
-        input_mapping: {source: ExamPGR301-App}
+        input_mapping: {source: ExamPGR301-Infra}
         params:
+          github_token: ((github_token))
+          heroku_api_key: ((heroku_api_key))
+          heroku_provider: ((heroku_provider))
           directories: |
-            terraform
+            .
 
   - name: infra
     plan:
@@ -34,12 +37,12 @@ jobs:
 resources:
 
   # Replace with your own repository
-#  - name: ExamPGR301-App
-#    type: git
-#    source:
-#      uri: git@github.com:UkjentFlodsvin/PGR301Exam-App.git
-#      branch: master
-#      private_key: ((deploy_key_app))
+  - name: ExamPGR301-App
+    type: git
+    source:
+      uri: git@github.com:UkjentFlodsvin/PGR301Exam-App.git
+      branch: master
+      private_key: ((deploy_key_app))
 
   # Replace with your own repository
   - name: ExamPGR301-Infra
