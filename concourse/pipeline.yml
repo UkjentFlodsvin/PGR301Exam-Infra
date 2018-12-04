@@ -1,21 +1,16 @@
 jobs:
   # Replace params / app_name with your heroku app name
-#  - name: deploy-app
-#    plan:
-#      - aggregate:
-#          - get: ExamPGR301-App
-#          - get: ExamPGR301-Infra
-#      - task: mvn_build
-#        file: ExamPGR301-Infra/concourse/java/task.yml
-#        input_mapping: {source: monitoring-app}
-#
-#      - task: push_to_heroku
-#        file: ExamPGR301-Infra/concourse/heroku/push_master_to_heroku.yml
-#        input_mapping: {source: ExamPGR301-App}
-#        params:
-#          app_name: ((heroku_app_name))
-#          heroku_email: ((heroku_email))
-#          heroku_api_token: ((heroku_api_key))
+  - name: deploy-app
+    plan:
+      - aggregate:
+          - get: ExamPGR301-App
+          - get: ExamPGR301-Infra
+      - task: build
+        file: ExamPGR301-Infra/concourse/heroku/task.yml
+        input_mapping: {source: ExamPGR301-App}
+        params:
+          directories: |
+            terraform
 
   - name: infra
     plan:
