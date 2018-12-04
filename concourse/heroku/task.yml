@@ -21,7 +21,7 @@ run:
   args:
     - -exc
     - |
-      cat > /root/.netrc <<EOF
+      cat > ~/.netrc:/root/.netrc:ro <<EOF
       machine api.heroku.com
           login ${heroku_email}
           password ${heroku_api_token}
@@ -30,6 +30,6 @@ run:
           password ${heroku_api_token}
       EOF
       export HEROKU_API_KEY=${heroku_api_key}
-      docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
+      heroku container:login
       heroku container:push web
       heroku container:release web -a ${heroku_app_name}
