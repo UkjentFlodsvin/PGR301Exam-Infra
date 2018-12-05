@@ -3,18 +3,39 @@ jobs:
   - name: deploy-app
     plan:
       - aggregate:
-          - get: ExamPGR301-App
           - get: ExamPGR301-Infra
-      - task: build
+            trigger: true
+          - get: heroku-docker-image
+            trigger: true
+            passed: [build-push-heroku]
+      - task: sync-heroku
         file: ExamPGR301-Infra/concourse/heroku/task.yml
-        input_mapping: {source: ExamPGR301-Infra}
+        input_mapping: {source: heroku-docker-image}
         params:
           github_token: ((github_token))
           heroku_api_key: ((heroku_api_key))
           heroku_provider: ((heroku_provider))
           heroku_app_name: ((heroku_app_name))
-#          directories: |
-#            .
+
+  - name: heroku-deploy
+    plan:
+      - aggregate:
+        - get: ExamPGR301-Infra
+        - get: ExamPGR301-App
+          trigger: true
+
+      - task: mvn_build
+        file: ExamPGR301-Infra/concourse/java/task.yml
+        input_mapping: {source: ExamPGR301-App}
+
+      - task: sync-heroku
+        file: ExamPGR301-Infra/concourse/heroku/heroku_sync.yml
+        input_mapping: {source: ExamPGR301-App}
+        params:
+          github_token: ((github_token))
+          heroku_api_key: ((heroku_api_key))
+          heroku_provider: ((heroku_provider))
+          heroku_app_name: ((heroku_app_name))
 
   - name: infra
     plan:
@@ -35,9 +56,27 @@ jobs:
           repository: with-state
           rebase: true
 
+  - name: build-push-dockerhub
+    public: true
+    serial: true
+    plan:
+      - get: ExamPGR301-App
+      - put: dockerhub-docker-image
+        params:
+          build: ExamPGR301-App
+
+  - name: build-push-heroku
+    public: true
+    serial: true
+    plan:
+      - get: ExamPGR301-App
+        trigger: true
+      - put: heroku-docker-image
+        params:
+          build: ExamPGR301-App
+
 resources:
 
-  # Replace with your own repository
   - name: ExamPGR301-App
     type: git
     source:
@@ -45,10 +84,25 @@ resources:
       branch: master
       private_key: ((deploy_key_app))
 
-  # Replace with your own repository
   - name: ExamPGR301-Infra
     type: git
     source:
       uri: git@github.com:UkjentFlodsvin/PGR301Exam-Infra.git
       branch: master
       private_key: ((deploy_key_infra))
+
+  - name: dockerhub-docker-image
+    type: docker-image
+    source:
+      email: ((docker-hub-email))
+      username: ((docker-hub-username))
+      password: ((docker-hub-password))
+      repository: ((docker-hub-username))/bookapi
+
+  - name: heroku-docker-image
+    type: docker-image
+    source:
+      email: ((heroku_provider))
+      username: ((heroku_provider))
+      password: ((heroku_api_key))
+      repository: registry.heroku.com/((heroku_app_name))/web
