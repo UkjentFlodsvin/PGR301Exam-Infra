@@ -10,9 +10,9 @@ inputs:
 - name: source
 
 params:
-    heroku_email:
-    heroku_api_token:
-    app_name:
+    heroku_api_key: ((heroku_api_key))
+    heroku_provider: ((heroku_provider))
+    heroku_app_name: ((heroku_app_name))
 
 run:
   path: sh
@@ -22,10 +22,10 @@ run:
     - |
       cat > /root/.netrc <<EOF
       machine api.heroku.com
-          login ${heroku_email}
-          password ${heroku_api_token}
+          login ${heroku_provider}
+          password ${heroku_api_key}
       machine git.heroku.com
-          login ${heroku_email}
-          password ${heroku_api_token}
+          login ${heroku_provider}
+          password ${heroku_api_key}
       EOF
-      git push https://git.heroku.com/${app_name}.git master:refs/heads/master
+      git push https://git.heroku.com/${heroku_app_name}.git master:refs/heads/master
