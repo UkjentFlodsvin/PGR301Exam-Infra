@@ -30,4 +30,4 @@ run:
           password ${heroku_api_key}
       EOF
       export HEROKU_API_KEY=${heroku_api_key}
-      heroku container:release web -a ${app_name}
+      heroku container:release web -a ${heroku_app_name}
