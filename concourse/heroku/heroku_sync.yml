@@ -20,7 +20,7 @@ run:
   args:
     - -exc
     - |
-      cat > /root/.netrc <<EOF
+      cat > ~/.netrc:ro <<EOF
       machine api.heroku.com
           login ${heroku_provider}
           password ${heroku_api_key}
@@ -28,4 +28,5 @@ run:
           login ${heroku_provider}
           password ${heroku_api_key}
       EOF
+      export HEROKU_API_KEY=${heroku_api_key}
       git push https://git.heroku.com/${heroku_app_name}.git master:refs/heads/master
