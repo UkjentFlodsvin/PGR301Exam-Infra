@@ -14,4 +14,4 @@ outputs:
   - name: jar-file
 
 run:
-  path: monitoring-infra/concourse/java/task.sh
+  path: ExamPGR301-App/concourse/java/task.sh
