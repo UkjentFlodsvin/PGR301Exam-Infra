@@ -1,6 +1,6 @@
 # Create Heroku apps for staging and production
 resource "heroku_app" "ci" {
-  name   = "${var.app_prefix}-app-ci"
+  name   = "${var.app_prefix}-ci"
   region = "eu"
 }
 
@@ -11,7 +11,7 @@ resource "heroku_addon" "db_ci" {
 }
 
 resource "heroku_app" "staging" {
-  name   = "${var.app_prefix}-app-staging"
+  name   = "${var.app_prefix}-staging"
   region = "eu"
 }
 
@@ -22,7 +22,7 @@ resource "heroku_addon" "db_stage" {
 }
 
 resource "heroku_app" "production" {
-  name   = "${var.app_prefix}-app-production"
+  name   = "${var.app_prefix}-production"
   region = "eu"
 }
 
