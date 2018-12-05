@@ -8,10 +8,10 @@ image_resource:
 
 inputs:
   - name: source
-  - name: ExamPGR301-App
+  - name: ExamPGR301-Infra
 
 outputs:
   - name: jar-file
 
 run:
-  path: ExamPGR301-App/concourse/java/task.sh
+  path: ExamPGR301-Infra/concourse/java/task.sh
