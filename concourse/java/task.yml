@@ -8,7 +8,7 @@ image_resource:
 
 inputs:
   - name: source
-  - name: monitoring-infra
+  - name: ExamPGR301-App
 
 outputs:
   - name: jar-file

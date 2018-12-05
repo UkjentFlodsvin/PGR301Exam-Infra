@@ -8,7 +8,7 @@ jobs:
           - get: heroku-docker-image
             trigger: true
             passed: [build-push-heroku]
-      - task: sync-heroku
+      - task: meow
         file: ExamPGR301-Infra/concourse/heroku/task.yml
         input_mapping: {source: heroku-docker-image}
         params:
@@ -23,11 +23,9 @@ jobs:
         - get: ExamPGR301-Infra
         - get: ExamPGR301-App
           trigger: true
-
       - task: mvn_build
         file: ExamPGR301-Infra/concourse/java/task.yml
         input_mapping: {source: ExamPGR301-App}
-
       - task: sync-heroku
         file: ExamPGR301-Infra/concourse/heroku/heroku_sync.yml
         input_mapping: {source: ExamPGR301-App}
